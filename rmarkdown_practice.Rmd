@@ -1,0 +1,26 @@
+---
+title: "RMarkdown Practice"
+author: "Rohan"
+date: "2024-01-11"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Balling
+
+### Delusion
+
+#### Gaming
+
+```{r}
+#install.packages("tidyverse")
+library("tidyverse")
+```
+
+```{r}
+ggplot(mtcars, aes(x = factor(cyl))) +
+    geom_bar()
+```
