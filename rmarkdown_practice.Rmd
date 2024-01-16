@@ -15,6 +15,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 #### Gaming
 
+The fat cat crossed  
+the road.  
+
 ```{r}
 #install.packages("tidyverse")
 library("tidyverse")
