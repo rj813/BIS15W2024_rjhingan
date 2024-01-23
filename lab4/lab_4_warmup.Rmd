@@ -1,0 +1,49 @@
+---
+title: "lab_4_warmup"
+output: html_document
+date: "2024-01-23"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# 1
+```{r}
+library(tidyverse)
+library(palmerpenguins)
+```
+
+# 2. the dataset is 344x8
+```{r}
+dim(penguins)
+```
+
+# 3. species, island, bill_length_mm, flipper_length_mm, body_mass_g, sex, year
+```{r}
+variable.names(penguins)
+```
+
+#4. 168 on Biscoe, 124 on Dream, and 52 on Torgersen
+```{r}
+penguins <- penguins
+```
+
+```{r}
+table(penguins$island)
+```
+
+#5. 
+
+```{r}
+mean(penguins$body_mass_g, na.rm=T)
+```
+
+
+
+
+
+
+
+
+
+
