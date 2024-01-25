@@ -1,0 +1,53 @@
+---
+title: "lab_5_warmup"
+output: html_document
+date: "2024-01-25"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+You will need the tidyverse to complete the warm-up- be sure to load the library.  
+
+```{r}
+library(tidyverse)
+```
+
+1. Load the fish data. 
+
+```{r}
+setwd("/Users/rjhingan/Desktop/BIS15W2024_rjhingan/lab5")
+```
+
+```{r}
+fish <- read_csv("data/Gaeta_etal_CLC_data.csv")
+```
+
+2. Transform the fish data to only include the variables lakeid and length.  Store this as a new dataframe called "fishlength".   
+
+```{r}
+fishlength <- select(fish, "lakeid", "length")
+```
+
+3. Filter the `fish` data to include the samples from lake "BO".  
+
+```{r}
+glimpse(fish)
+```
+
+```{r}
+fishBO <- filter(fish, lakeid == "BO")
+```
+
+4. Calculate the mean length of fish from lake "BO".  
+
+```{r}
+fishBO_mean <- mean(fishBO$length)
+```
+
+
+
+
+
+
