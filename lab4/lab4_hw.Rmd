@@ -31,32 +31,58 @@ Data: http://datadryad.org/resource/doi:10.5061/dryad.q5j65/1
 
 **1. Load the data into a new object called `homerange`.**
 ```{r}
-homerange <- read_csv
+homerange <- read_csv("data/Tamburelloetal_HomeRangeDatabase.csv")
 ```
 
 **2. Explore the data. Show the dimensions, column names, classes for each variable, and a statistical summary. Keep these as separate code chunks.**  
 ```{r}
+# 569 x 24
+dim(homerange)
+```
 
+```{r}
+colnames(homerange)
+```
+
+```{r}
+sapply(homerange, class)
+```
+
+```{r}
+summary(homerange)
 ```
 
 **3. Change the class of the variables `taxon` and `order` to factors and display their levels.**  
 ```{r}
-
+homerange$taxon <- as.factor(homerange$taxon)
+homerange$order <- as.factor(homerange$order)
 ```
+
+```{r}
+levels(homerange$taxon)
+levels(homerange$order)
+```
+
 
 **4. What taxa are represented in the `homerange` data frame? Make a new data frame `taxa` that is restricted to taxon, common name, class, order, family, genus, species.**  
 ```{r}
+# lake fishes, river fishes, marine fishes, birds, mammals, lizards, snakes, turtles, tortoises
+newData <- select(homerange, "taxon", "common.name", "class", "order", "family", "genus", "species")
 
+taxa <- data.frame(newData)
+
+unique(taxa$taxon)
 ```
 
 **5. The variable `taxon` identifies the common name groups of the species represented in `homerange`. Make a table the shows the counts for each of these `taxon`.**  
 ```{r}
-
+table(taxa$taxon)
 ```
 
 **6. The species in `homerange` are also classified into trophic guilds. How many species are represented in each trophic guild.**  
 ```{r}
-
+# 342 carnivores and 227 herbivores
+table(homerange$trophic.guild)
 ```
 
 **7. Make two new data frames, one which is restricted to carnivores and another that is restricted to herbivores.**  
