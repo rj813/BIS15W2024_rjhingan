@@ -1,0 +1,53 @@
+---
+title: "lab_6_warmup"
+output: html_document
+date: "2024-01-30"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+#1. Load the Libraries
+```{r}
+library("tidyverse")
+library("janitor")
+bison_data <- read.csv("data/bison.csv")
+```
+
+#2.
+```{r}
+dim(bison_data)
+```
+
+```{r}
+str(bison_data)
+```
+#3.
+```{r}
+bison_limited <- select(bison_data, data_code, animal_sex, animal_weight, animal_yob)
+```
+
+#4.
+```{r}
+animallimited <- bison_limited%>%
+  filter(between(animal_yob, 1980, 1990))%>%
+  arrange(animal_yob)
+```
+
+#5. How many males and females? F=414 M=21
+```{r}
+  table(animallimited$animal_sex)
+```
+
+#6. Between 1980-1990, male were on average heavier than females
+```{r}
+femalelimited <- filter(animallimited, animal_sex == "F")
+```
+
+```{r}
+malelimited <- filter(animallimited, animal_sex == "M")
+```
+
+```{r}
+isLarge = mean(malelimited$animal_weight) > mean(femalelimited$animal_weight)
+```
