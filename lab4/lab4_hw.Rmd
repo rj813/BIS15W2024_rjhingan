@@ -113,9 +113,14 @@ select(owls, common.name, mean.mass.g, log10.mass, family, genus, species)
 
 **10. As measured by the data, which bird species has the largest homerange? Show all of your work, please. Look this species up online and tell me about it!**.  
 
+# Caracara has the largest homerange. They are highly territorial creatures and consume a variety of food such as insects, fish, reptiles, mammals, amphibians,and eggs. 
 ```{r}
-head()
+birds <- filter(homerange, taxon=="birds")
 ```
+```{r}
+largest_home_range_species <-birds$common.name[which.max(birds$mean.hra.m2)]
+```
+
 
 ## Push your final code to GitHub!
 Please be sure that you check the `keep md` file in the knit preferences.   
