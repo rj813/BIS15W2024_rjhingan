@@ -166,8 +166,14 @@ superhero_powers %>%
 
 ## Your Favorite
 14. Pick your favorite superhero and let's see their powers!  
+```{r}
+
+```
 
 15. Can you find your hero in the superhero_info data? Show their info!  
+```{r}
+
+```
 
 ## Push your final code to GitHub!
 Please be sure that you check the `keep md` file in the knit preferences.  
