@@ -52,42 +52,57 @@ glimpse(amniota)
 
 **3. Do some exploratory analysis of the `amphibio` data set. Use the function(s) of your choice. Try to get an idea of how NA's are represented in the data.**  
 ```{r}
-
+glimpse(amphibio)
 ```
 
 **4. How many total NA's are in each data set? Do these values make sense? Are NA's represented by values?**   
 ```{r}
+num_amphibio = sum(miss_var_summary(amphibio)[2])
+num_amphibio
+
+num_amniota = sum(amniota == -999)
+num_amniota
 
 ```
 
 **5. Make any necessary replacements in the data such that all NA's appear as "NA".**   
 ```{r}
 
+amniota = mutate_all(amniota,~replace(., . == -999, NA))
+amniota
 ```
 
 **6. Use the package `naniar` to produce a summary, including percentages, of missing data in each column for the `amniota` data.**  
 ```{r}
-
+miss_var_summary(amniota)
 ```
+
 
 **7. Use the package `naniar` to produce a summary, including percentages, of missing data in each column for the `amphibio` data.**
 ```{r}
-
+miss_var_summary(amphibio)
 ```
 
 **8. For the `amniota` data, calculate the number of NAs in the `egg_mass_g` column sorted by taxonomic class; i.e. how many NA's are present in the `egg_mass_g` column in birds, mammals, and reptiles? Does this results make sense biologically? How do these results affect your interpretation of NA's?**  
 ```{r}
-
+# Yes this makes sense. Mammals do not lay eggs and there is 100% missing data there. Aves and Reptilia both lay eggs and data existed for both.
+amniota %>%
+  group_by(class) %>%
+  select(class, egg_mass_g) %>%
+  miss_var_summary(order=T)
 ```
 
 **9. The `amphibio` data have variables that classify species as fossorial (burrowing), terrestrial, aquatic, or arboreal.Calculate the number of NA's in each of these variables. Do you think that the authors intend us to think that there are NA's in these columns or could they represent something else? Explain.**
 ```{r}
-
+# The NAs are meant to represent that an observation is not a part of that species classification.
+amphibio %>%
+  select(Fos, Ter, Aqu, Arb) %>%
+  miss_var_summary(order=T)
 ```
 
 **10. Now that we know how NA's are represented in the `amniota` data, how would you load the data such that the values which represent NA's are automatically converted?**
 ```{r}
-
+amniota <- read_csv("data/amniota.csv", na= c("NA", " ", ".", "-999")) %>% clean_names()
 ```
 
 ## Push your final code to GitHub!
