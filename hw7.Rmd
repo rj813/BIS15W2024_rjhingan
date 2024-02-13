@@ -57,13 +57,14 @@ glimpse(amphibio)
 
 **4. How many total NA's are in each data set? Do these values make sense? Are NA's represented by values?**   
 ```{r}
-num_amphibio = sum(miss_var_summary(amphibio)[2])
-num_amphibio
-
-num_amniota = sum(amniota == -999)
-num_amniota
-
+# The NAs are represented by "-999"
+miss_var_summary(amniota)
 ```
+
+```{r}
+miss_var_summary(amphibio)
+```
+
 
 **5. Make any necessary replacements in the data such that all NA's appear as "NA".**   
 ```{r}
