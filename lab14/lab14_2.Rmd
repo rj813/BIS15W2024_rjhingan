@@ -73,7 +73,26 @@ homerange %>%
 ```
 
 ```{r}
+library(shiny)
 
+ui <- fluidPage(titlePanel("Log 10 Homerange by taxon"),
+                selectInput("x","Select Taxon",
+                            choices=c("birds", "lake fishes", "lizards", "marine fishes", "river fishes", "mammals", "snakes", "tortoises", "turtles"), selected="birds"),
+                plotOutput("plot", width="600px", height="500px")
+  
+) # closes the UI
+
+server <- function(input, output, session) {
+  output$plot <- renderPlot({
+    homerange %>%
+      filter(taxon==input$x) %>% #reactive part of the app is the filter
+      ggplot(aes(x=log10.hra)) +
+      geom_density(fill="steelblue", color="black", alpha=0.8)
+    
+  })
+}
+
+shinyApp(ui, server)
 ```
 
 ## Adding Numeric Input
@@ -122,12 +141,38 @@ Let's add our ui and server elements to make a functional dashboard. We will put
 
 Let's go back to our original app that produced a scatterplot for the penguins data.
 ```{r}
+ui <- fluidPage(
+    selectInput("x", "Select X Variable", choices = c("bill_length_mm", "bill_depth_mm", "flipper_length_mm", "body_mass_g"),
+              selected = "bill_length_mm"),
+    selectInput("y", "Select Y Variable", choices = c("bill_length_mm", "bill_depth_mm", "flipper_length_mm", "body_mass_g"),
+              selected = "bill_depth_mm"),
+    sliderInput("pointsize", "Select the Point Size", min = 0.5, max = 3, value = 1, step = 0.5),
+    plotOutput("plot", width = "500px", height = "400px")
+)
 
+server <- function(input, output, session) {
+  session$onSessionEnded(stopApp)
+  output$plot <- renderPlot({
+  ggplot(penguins, aes_string(x = input$x, y = input$y, color="species")) + 
+      geom_point(size=input$pointsize) + 
+      theme_light()
+    })
+}
+
+shinyApp(ui, server)
 ```
 
 Now let's add our server functions... 
 ```{r}
+ui <- dashboardPage(
+  dashboardHeader(title="Penguins"),
+  dashboardSidebar(disable=T),
+  dashboardBody()
+)
 
+server <- function(input, output) { }
+
+shinyApp(ui, server)
 ```
 
 
@@ -141,7 +186,7 @@ ui <- dashboardPage(
   
   dashboardBody(
   fluidRow(
-  box(
+  box(width=3,
     
     selectInput("x", "Select X Variable", choices = c("bill_length_mm", "bill_depth_mm", "flipper_length_mm", "body_mass_g"), selected = "bill_length_mm"),
   
@@ -227,18 +272,53 @@ wolves %>%
   geom_bar()+
   facet_wrap(~pop)
 ```
+```{r}
+ui <- dashboardPage(
+  dashboardHeader(title="Sex Composition by Wolf Population"),
+  dashboardSidebar(disable=T),
+  dashboardBody(
+    fluidRow(
+    box(width=3,
+    selectInput("x", "Select Population", choice=unique(wolves$pop)), hr() #gives some help with multiple observations
+), # closes the first box
+     box(width=7,
+        plotOutput("plot", width="600px", height="400px")
+) # closes the 2nd box
+) # closes the row
+) # closes the dashboard body
+) # closes the UI
+
+server <- function(input, output, session) { 
+  
+  session$onSessionEnded(stopApp) # automatically stop the app when we close it
+  
+  output$plot <- renderPlot({
+ wolves %>% 
+  filter(sex!="NA") %>% 
+  filter(pop==input$x) %>% # filter is the reactive part
+  ggplot(aes(x=sex, fill=sex))+
+  geom_bar()
+    })
+  }
+
+shinyApp(ui, server)
+```
 
 ## Wrap-up  
 Please review the learning goals and be sure to use the code here as a reference when completing the homework.
 
 -->[Home](https://jmledford3115.github.io/datascibiol/)
+```{r}
+#install.packages("shinythemes")
+library(shinythemes)
+```
 
 Sneaky Example...
 ```{r, eval=F, echo=T}
 ui <- fluidPage(    
   
   #shinythemes::themeSelector(),  # <--- Add this somewhere in the UI
-  theme = shinytheme("cerulean"),
+  theme = shinytheme("slate"),
   
   titlePanel("Log 10 Homerange by Taxon"), # give the page a title
   
